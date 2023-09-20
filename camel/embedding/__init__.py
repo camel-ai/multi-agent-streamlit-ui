@@ -12,9 +12,10 @@
 # limitations under the License.
 # =========== Copyright 2023 @ CAMEL-AI.org. All Rights Reserved. ===========
 
-from .base_memory import BaseMemory
-from .chat_history_memory import ChatHistoryMemory
-from .memory_record import MemoryRecord
-from .vectordb_memory import VectorDBMemory
+from .base import BaseEmbedding
+from .openai_embedding import OpenAiEmbedding
 
-__all__ = ['BaseMemory', 'ChatHistoryMemory', 'VectorDBMemory', 'MemoryRecord']
+__all__ = [
+    "BaseEmbedding",
+    "OpenAiEmbedding",
+]
