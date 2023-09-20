@@ -14,10 +14,6 @@
 
 from .base_memory import BaseMemory
 from .chat_history_memory import ChatHistoryMemory
-from .vectordb_memory import VectorDBMemory
+from .memory_record import MemoryRecord
 
-__all__ = [
-    'BaseMemory',
-    'ChatHistoryMemory',
-    'VectorDBMemory',
-]
+__all__ = ['BaseMemory', 'ChatHistoryMemory', 'MemoryRecord']
