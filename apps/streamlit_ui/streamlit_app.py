@@ -128,4 +128,4 @@ with st.sidebar:
 # Check if all required inputs are provided and the submit button is clicked
 if openai_api_key and task_prompt and context_content and submit_button:
     # Call the 'main' function with the task prompt and context content
-    main(task_prompt, context_content)
+    main(task_prompt=task_prompt, context_content=context_content)
