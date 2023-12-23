@@ -24,10 +24,10 @@ from apps.streamlit_ui.multi_agent_communication_ui import (
     main,
     task_prompt_supply_chain,
 )
-from camel.configs import ChatGPTConfig
-from camel.functions.data_io_functions import read_file
-from camel.models.openai_model import OpenAIModel
-from camel.typing import ModelType
+from camel_backend.camel.configs import ChatGPTConfig
+from camel_backend.camel.functions.data_io_functions import read_file
+from camel_backend.camel.models.openai_model import OpenAIModel
+from camel_backend.camel.types import ModelType
 
 # Set the title for the Streamlit app
 st.title("🐫 CAMEL Multi-Agent")

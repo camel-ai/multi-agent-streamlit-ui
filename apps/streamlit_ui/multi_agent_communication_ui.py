@@ -15,11 +15,11 @@ import json
 
 import streamlit as st
 
-from camel.agents.insight_agent import InsightAgent
-from camel.agents.role_assignment_agent import RoleAssignmentAgent
-from camel.configs import ChatGPTConfig
-from camel.societies import RolePlaying
-from camel.typing import ModelType, TaskType
+from camel_backend.camel.agents.insight_agent import InsightAgent
+from camel_backend.camel.agents.role_assignment_agent import RoleAssignmentAgent
+from camel_backend.camel.configs import ChatGPTConfig
+from camel_backend.camel.societies import RolePlaying
+from camel_backend.camel.types import ModelType, TaskType
 
 
 def main(model_type=None, task_prompt=None, context_text=None) -> None:
