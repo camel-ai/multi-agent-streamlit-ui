@@ -117,9 +117,9 @@ with st.sidebar:
             with open('apps/streamlit_ui/context_content_business_novel.txt',
                       'r') as file:
                 context_content_business_novel = file.read()
-            task_prompt = st.text_area("Insert your task prompt here",
+            task_prompt = st.text_area("Insert the task here",
                                        value=task_prompt_business_novel)
-            context_content = st.text_area("Insert your context content here",
+            context_content = st.text_area("Insert the context here",
                                            value=context_content_business_novel)
 
         # Create a submit button in the form
