@@ -19,11 +19,7 @@ import openai
 import streamlit as st
 
 # Import functions and data related to the Streamlit user interface
-from apps.streamlit_ui.multi_agent_communication_ui import (
-    context_content_supply_chain,
-    main,
-    task_prompt_supply_chain,
-)
+from apps.streamlit_ui.multi_agent_communication_ui import main
 from camel_backend.camel.configs import ChatGPTConfig
 from camel_backend.camel.functions.data_io_functions import read_file
 from camel_backend.camel.models.openai_model import OpenAIModel
@@ -115,10 +111,14 @@ with st.sidebar:
                 value=content_context_content)
         else:
             # Set default values for task prompt and context content
+            with open('apps/streamlit_ui/task_prompt_business_novel.txt', 'r') as file:
+                task_prompt_business_novel = file.read()
+            with open('apps/streamlit_ui/context_content_business_novel.txt', 'r') as file:
+                context_content_business_novel = file.read()
             task_prompt = st.text_area("Insert your task prompt here",
-                                       value=task_prompt_supply_chain)
+                                       value=task_prompt_business_novel)
             context_content = st.text_area("Insert your context content here",
-                                           value=context_content_supply_chain)
+                                           value=context_content_business_novel)
 
         # Create a submit button in the form
         submit_button = st.form_submit_button(label='Submit')
