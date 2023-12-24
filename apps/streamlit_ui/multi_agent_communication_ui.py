@@ -39,6 +39,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
     role_descriptions_dict = \
         role_assignment_agent.run_role_with_description(
             task_prompt=task_prompt, num_roles=3, role_names=None)
+    send_role_descriptions_to_ui(role_descriptions_dict=role_descriptions_dict)
 
     # Split the original task into subtasks
     subtasks_with_dependencies_dict = \
@@ -60,6 +61,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
         subtasks_with_dependencies_dict[key]["description"]
         for key in sorted(subtasks_with_dependencies_dict.keys())
     ]
+    send_subtasks_to_ui(subtasks=subtasks)
 
     # Calculate the execution order of the subtasks, based on their
     # dependencies
@@ -76,10 +78,6 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
                 continue
             tags = tuple(insight["entity_recognition"])
             environment_record[tags] = insight
-
-    # Print a part of the configurations of the multi-agent communication
-    send_role_descriptions_to_ui(role_descriptions_dict=role_descriptions_dict)
-    send_subtasks_to_ui(subtasks=subtasks)
 
     # Resolve the subtasks in sequence of the pipelines
     for subtask_id in (subtask for pipeline in parallel_subtask_pipelines
