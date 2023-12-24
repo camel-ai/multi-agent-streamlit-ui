@@ -16,14 +16,13 @@
 import os
 
 import streamlit as st
+from camel.configs import ChatGPTConfig
+from camel.functions.data_io_functions import read_file
+from camel.models.openai_model import OpenAIModel
+from camel.types import ModelType
 
 # Import functions and data related to the Streamlit user interface
 from apps.streamlit_ui.multi_agent_communication_ui import main
-from camel_backend.camel.configs import ChatGPTConfig
-from camel_backend.camel.functions.data_io_functions import read_file
-from camel_backend.camel.models.openai_model import OpenAIModel
-from camel_backend.camel.types import ModelType
-
 
 # Set the title for the Streamlit app
 st.title("🐫 CAMEL Multi-Agent")
@@ -35,9 +34,10 @@ with st.sidebar:
         openai_api_key = st.text_input("OpenAI API Key", key="api_key_openai",
                                        type="password")
         google_api_key = st.text_input("Google API Key", key="api_key_google",
-                                        type="password")
-        search_engine_id = st.text_input("Search Engine ID", key="search_engine_id",
-                                        type="password")
+                                       type="password")
+        search_engine_id = st.text_input("Search Engine ID",
+                                         key="search_engine_id",
+                                         type="password")
 
         # Set the environment variables for the API Key
         os.environ["OPENAI_API_KEY"] = openai_api_key
@@ -125,13 +125,13 @@ with st.sidebar:
             task_prompt = st.text_area("Insert the task here",
                                        value=task_prompt_business_novel)
             context_text = st.text_area("Insert the context here",
-                                           value=context_content_business_novel)
+                                        value=context_content_business_novel)
 
         # Create a submit button in the form
         submit_button = st.form_submit_button(label='Submit')
 
 # Check if all required inputs are provided and the submit button is clicked
-if (openai_api_key and google_api_key and search_engine_id and
-    task_prompt and context_text and submit_button):
+if (openai_api_key and google_api_key and search_engine_id and task_prompt
+        and context_text and submit_button):
     # Call the 'main' function with the task prompt and context content
     main(task_prompt=task_prompt, context_text=context_text)
