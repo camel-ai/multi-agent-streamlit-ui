@@ -15,7 +15,6 @@
 # Import necessary libraries and modules
 import os
 
-import openai
 import streamlit as st
 
 # Import functions and data related to the Streamlit user interface
@@ -34,10 +33,15 @@ with st.sidebar:
         # Input field for OpenAI API Key
         openai_api_key = st.text_input("OpenAI API Key", key="api_key_openai",
                                        type="password")
+        google_api_key = st.text_input("Google API Key", key="api_key_google",
+                                        type="password")
+        search_engine_id = st.text_input("Search Engine ID", key="search_engine_id",
+                                        type="password")
 
-        # Set the OpenAI API Key in the environment variable
+        # Set the environment variables for the API Key
         os.environ["OPENAI_API_KEY"] = openai_api_key
-        openai.api_key = openai_api_key
+        os.environ["GOOGLE_API_KEY"] = google_api_key
+        os.environ["SEARCH_ENGINE_ID"] = search_engine_id
 
         # File uploader for users to upload a document
         uploaded_file = st.file_uploader(
@@ -119,13 +123,13 @@ with st.sidebar:
                 context_content_business_novel = file.read()
             task_prompt = st.text_area("Insert the task here",
                                        value=task_prompt_business_novel)
-            context_content = st.text_area("Insert the context here",
+            context_text = st.text_area("Insert the context here",
                                            value=context_content_business_novel)
 
         # Create a submit button in the form
         submit_button = st.form_submit_button(label='Submit')
 
 # Check if all required inputs are provided and the submit button is clicked
-if openai_api_key and task_prompt and context_content and submit_button:
+if openai_api_key and task_prompt and context_text and submit_button:
     # Call the 'main' function with the task prompt and context content
-    main(task_prompt=task_prompt, context_content=context_content)
+    main(task_prompt=task_prompt, context_text=context_text)
