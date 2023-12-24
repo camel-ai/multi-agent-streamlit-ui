@@ -24,6 +24,7 @@ from camel_backend.camel.functions.data_io_functions import read_file
 from camel_backend.camel.models.openai_model import OpenAIModel
 from camel_backend.camel.types import ModelType
 
+
 # Set the title for the Streamlit app
 st.title("🐫 CAMEL Multi-Agent")
 
@@ -130,6 +131,7 @@ with st.sidebar:
         submit_button = st.form_submit_button(label='Submit')
 
 # Check if all required inputs are provided and the submit button is clicked
-if openai_api_key and task_prompt and context_text and submit_button:
+if (openai_api_key and google_api_key and search_engine_id and
+    task_prompt and context_text and submit_button):
     # Call the 'main' function with the task prompt and context content
     main(task_prompt=task_prompt, context_text=context_text)
