@@ -41,3 +41,4 @@ types-tqdm==*
 sphinx==6.*
 sphinx_book_theme==*
 recommonmark==*
+git+https://github.com/camel-ai/camel.git@feature/multi-agent-prod#egg=camel
