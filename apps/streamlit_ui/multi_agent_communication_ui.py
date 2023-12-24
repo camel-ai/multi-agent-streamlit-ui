@@ -49,7 +49,9 @@ def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
     for subtask_idx, details in subtasks_with_dependencies_dict.items():
         deps = details["dependencies"]
         oriented_graph[subtask_idx] = deps
-    role_assignment_agent.draw_subtasks_graph(oriented_graph=oriented_graph)
+    role_assignment_agent.draw_subtasks_graph(
+        oriented_graph=oriented_graph,
+        graph_file_path="apps/streamlit_ui/task_dependency_graph.png")
 
     subtasks = [
         subtasks_with_dependencies_dict[key]["description"]
@@ -114,7 +116,7 @@ def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
         ai_assistant_description = role_descriptions_dict[ai_assistant_role]
         ai_user_description = role_descriptions_dict[ai_user_role]
 
-        with st.expander(f"{ID_one_subtask}: {one_subtask}\n"):
+        with st.expander(f"{ID_one_subtask}:\n{one_subtask}"):
             send_two_role_descriptions_to_ui(
                 ai_assistant_role=ai_assistant_role,
                 ai_user_role=ai_user_role,
@@ -321,7 +323,7 @@ def send_two_role_descriptions_to_ui(ai_assistant_role = "", ai_user_role = "",
 def send_subtasks_to_ui(subtasks = []):
     with st.expander("Subtasks:"):
         for i, subtask in enumerate(subtasks):
-            st.write(f"Subtask {i}:")
+            st.write(f"Subtask {i + 1}:")
             st.write(subtask)
 
 def send_message_to_ui(role = "", role_name = "", message = ""):
