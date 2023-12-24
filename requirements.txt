@@ -31,14 +31,4 @@ pytest>=7
 pytest-cov>=4
 gradio>=3
 mock>=5
-pandas-stubs==*
-types-Pillow==*
-types-Pygments==*
-types-mock==*
-types-regex==*
-types-setuptools==*
-types-tqdm==*
-sphinx>=6
-sphinx_book_theme==*
-recommonmark==*
 git+https://github.com/camel-ai/camel.git@feature/multi-agent-prod#egg=camel
