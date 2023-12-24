@@ -11,8 +11,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # =========== Copyright 2023 @ CAMEL-AI.org. All Rights Reserved. ===========
-from colorama import Fore
 import streamlit as st
+
+from colorama import Fore
 
 from camel.agents.deductive_reasoner_agent import DeductiveReasonerAgent
 from camel.agents.insight_agent import InsightAgent
@@ -44,7 +45,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
         role_assignment_agent.split_tasks(
             task_prompt=task_prompt,
             role_descriptions_dict=role_descriptions_dict,
-            num_subtasks=None,
+            num_subtasks=1,
             context_text=context_text)
     oriented_graph = {}
     for subtask_idx, details in subtasks_with_dependencies_dict.items():
