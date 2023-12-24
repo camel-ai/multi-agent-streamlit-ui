@@ -14,15 +14,16 @@
 from colorama import Fore
 import streamlit as st
 
-from camel_backend.camel.agents.deductive_reasoner_agent import DeductiveReasonerAgent
-from camel_backend.camel.agents.insight_agent import InsightAgent
-from camel_backend.camel.agents.role_assignment_agent import RoleAssignmentAgent
-from camel_backend.camel.configs import ChatGPTConfig
-from camel_backend.camel.societies import RolePlaying
-from camel_backend.camel.types import ModelType, TaskType
+from camel.agents.deductive_reasoner_agent import DeductiveReasonerAgent
+from camel.agents.insight_agent import InsightAgent
+from camel.agents.role_assignment_agent import RoleAssignmentAgent
+from camel.configs import ChatGPTConfig, FunctionCallingConfig
+from camel.functions import MATH_FUNCS, SEARCH_FUNCS
+from camel.societies import RolePlaying
+from camel.types import ModelType, TaskType
 
 
-def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
+def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
          context_text=None) -> None:
     # Model and agent initialization
     model_config_description = ChatGPTConfig()
@@ -43,7 +44,7 @@ def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
         role_assignment_agent.split_tasks(
             task_prompt=task_prompt,
             role_descriptions_dict=role_descriptions_dict,
-            num_subtasks=6,
+            num_subtasks=None,
             context_text=context_text)
     oriented_graph = {}
     for subtask_idx, details in subtasks_with_dependencies_dict.items():
@@ -139,9 +140,31 @@ def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
                 subtasks_with_dependencies_dict[ID_one_subtask]["input_content"] +
                 "\n- Output Standard for the completion of TASK:\n" +
                 subtasks_with_dependencies_dict[ID_one_subtask]["output_standard"])
+
+            function_list = [*MATH_FUNCS, *SEARCH_FUNCS]
+            assistant_model_config = \
+                FunctionCallingConfig.from_openai_function_list(
+                    function_list=function_list,
+                    kwargs=dict(temperature=0.0),
+                )
+            user_model_config = FunctionCallingConfig.from_openai_function_list(
+                function_list=function_list,
+                kwargs=dict(temperature=0.0),
+            )
+
             role_play_session = RolePlaying(
                 assistant_role_name=ai_assistant_role,
                 user_role_name=ai_user_role,
+                assistant_agent_kwargs=dict(
+                    model_type=ModelType.GPT_4_TURBO,
+                    model_config=assistant_model_config,
+                    function_list=function_list,
+                ),
+                user_agent_kwargs=dict(
+                    model_type=ModelType.GPT_4_TURBO,
+                    model_config=user_model_config,
+                    function_list=function_list,
+                ),
                 task_prompt=task_with_IO,
                 model_type=model_type,
                 task_type=TaskType.
@@ -150,8 +173,8 @@ def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
                 extend_sys_msg_meta_dicts=sys_msg_meta_dicts,
             )
 
-            chat_history_assistant = ("The TASK of the context text is:\n" +
-                                    f"{one_subtask}\n")
+            actions_record = ("The TASK of the context text is:\n" +
+                              f"{one_subtask}\n")
             chat_history_two_roles = ""
 
             # Start the role-playing to complete the subtask
@@ -168,8 +191,8 @@ def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
                                    message=assistant_response.msg.content)
 
                 # Generate the insights from the chat history
-                chat_history_assistant += (f"--- [{n}] ---\n"
-                                        f"{assistant_response.msg.content}\n")
+                actions_record += (f"--- [{n}] ---\n"
+                                   f"{assistant_response.msg.content}\n")
                 user_conversation = user_response.msg.content
                 assistant_conversation = assistant_response.msg.content.replace(
                     "Solution&Action:\n", "").replace("Next request.",
@@ -195,21 +218,20 @@ def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
                         f"Reason: {user_response.info['termination_reasons']}."))
                     break
 
-                if "CAMEL_TASK_DONE" in user_response.msg.content:
+                if "CAMEL_TASK_DONE" in user_response.msg.content or \
+                        "CAMEL_TASK_DONE" in assistant_response.msg.content:
                     break
 
                 input_assistant_msg = assistant_response.msg
 
             send_message_to_ui(role="assistant", role_name=ai_assistant_role,
-                                 message=f"Output of the {ID_one_subtask}:\n" +
-                                 chat_history_two_roles)
+                               message=f"Output of the {ID_one_subtask}:\n" +
+                               chat_history_two_roles)
 
-            insights_instruction = ("The CONTEXT TEXT is the chat history of " +
-                                    f"{ai_user_role} and {ai_assistant_role}. " +
-                                    "The INSIGHTs should come solely from the " +
-                                    "content of the conversation, not the " +
-                                    "conversation itsel.")
-            insights = insight_agent.run(context_text=chat_history_assistant,
+            insights_instruction = ("The CONTEXT TEXT is the steps to resolve " +
+                                    "the TASK. The INSIGHTs should come solely" +
+                                    "from the actions/steps.")
+            insights = insight_agent.run(context_text=actions_record,
                                         insights_instruction=insights_instruction)
             insights_str = insight_agent.convert_json_to_str(insights)
             insights_subtasks[ID_one_subtask] = insights_str
