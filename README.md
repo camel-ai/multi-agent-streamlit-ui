@@ -78,7 +78,7 @@ The innovation of our system lies in a multi-faceted approach, incorporating too
 Moreover, in the realm of prompt engineering within the Multi-Agent System, the essential objective is to uphold generality and versatility of the system rather than confining it to niche domains like software development. To date, the deployment of the Multi-Agent System in many problem-solving scenarios — from mathematical reasoning and modeling to novel writing, software development, and educational instruction — has yielded results that surpass anticipated effectiveness.
 
 ## Installation
-### Local Host
+### Local Hosting
 1. Clone the repository, and then navigate to the project directory:
     ``` sh
     git clone https://github.com/camel-ai/multi-agent-streamlit-ui.git
@@ -101,6 +101,22 @@ Moreover, in the realm of prompt engineering within the Multi-Agent System, the 
     - OpenAI API Key
     - Google API Key ([Google Cloud Console](https://cloud.google.com/))
     - Search Engine ID ([Google Custom Search JSON API page](https://developers.google.com/custom-search/v1/overview))
+
+### Remote Hosting
+1. This project is also available on a remote host for easier access and testing. You can find the application hosted: [CAMEL Multi-Agent UI](https://camel-multi-agent-ui.streamlit.app/).
+2. After starting the Streamlit application, if the system requires the API keys for certain functionalities, you will typically be prompted to enter them within the Streamlit UI. Enter your API keys in the designated field and submit or save it to enable the full features of the application. Ensure that your API key is kept secure and not shared publicly, as it might provide access to sensitive data or functionalities.
+    - OpenAI API Key
+    - Google API Key ([Google Cloud Console](https://cloud.google.com/))
+    - Search Engine ID ([Google Custom Search JSON API page](https://developers.google.com/custom-search/v1/overview))
+
+### 🚨 Warnings
+- ❗Cloud Deployment Stability: The cloud-hosted version of this application is still in testing phases and may be unstable or subject to downtime.
+- ⌛Response Time: The free version hosted in the cloud may have longer response times.
+- ⚠️Deployment Risk: Be aware of the risks associated with deploying this version, as it is public and still under active development.
+- ⚠️ API Influence: The functionality of this version is also influenced by external API dependencies. If you encounter a failure in operation, please refresh the page and attempt to retry. This step can help resolve issues caused by temporary API disruptions or limitations.
+
+
+
 
 ## Documentation
 
