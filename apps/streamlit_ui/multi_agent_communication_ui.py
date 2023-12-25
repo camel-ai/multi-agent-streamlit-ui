@@ -24,7 +24,7 @@ from camel.types import ModelType, TaskType
 from colorama import Fore
 
 
-def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
+def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
          context_text=None) -> None:
     # Model and agent initialization
     model_config_description = ChatGPTConfig()
