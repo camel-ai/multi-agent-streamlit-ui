@@ -38,7 +38,8 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
     # Generate role with descriptions
     role_descriptions_dict = \
         role_assignment_agent.run_role_with_description(
-            task_prompt=task_prompt, num_roles=3, role_names=None)
+            task_prompt=task_prompt, num_roles=4, role_names=None,
+            function_list=[*SEARCH_FUNCS])
     send_role_descriptions_to_ui(role_descriptions_dict=role_descriptions_dict)
 
     # Split the original task into subtasks
