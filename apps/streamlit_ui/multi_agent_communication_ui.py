@@ -226,8 +226,8 @@ def main(model_type=ModelType.GPT_4_TURBO, task_prompt=None,
 
             send_message_to_ui(
                 role="assistant", role_name=ai_assistant_role,
-                message=f"Output of the {subtask_id}:\n" +
-                chat_history_two_roles)
+                message="Conclusion of the conversation for the "
+                f"{subtask_id}:\n" + chat_history_two_roles)
 
             insights_instruction = (
                 "The CONTEXT TEXT is the steps to resolve " +
