@@ -56,6 +56,10 @@ This project, part of CAEML, implements a multi-agent system with a user interfa
     <img src='misc\stramlit_ui.png' with=800>
 </p>
 
+### ⚠️ Development and Testing Warning
+
+**Warning**: The multi-agent system is still under active development and testing, which means the UI may have several issues. If you encounter problems, please try refreshing the page and rerunning it. Additionally, we encourage you to report any issues you encounter by submitting an 'Issue' on the GitHub repository. Your feedback is valuable in improving the system's stability and functionality.
+
 ## Community
 🐫 CAMEL is an open-source library designed for the study of autonomous and communicative agents. We believe that studying these agents on a large scale offers valuable insights into their behaviors, capabilities, and potential risks. To facilitate research in this field, we implement and support various types of agents, tasks, prompts, models, and simulated environments.
 
