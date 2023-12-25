@@ -1,4 +1,0 @@
-[submodule "camel_backend"]
-	path = camel_backend
-	url = https://github.com/camel-ai/camel
-	branch = feature/multi-agent-prod
