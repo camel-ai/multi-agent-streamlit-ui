@@ -30,7 +30,7 @@ st.title("🐫 CAMEL Multi-Agent")
 # Create a sidebar with form elements
 with st.sidebar:
     with st.form(key='form1'):
-        # Input field for OpenAI API Key
+        # Input field for API Keys
         openai_api_key = st.text_input("OpenAI API Key", key="api_key_openai",
                                        type="password")
         google_api_key = st.text_input("Google API Key", key="api_key_google",
@@ -116,10 +116,10 @@ with st.sidebar:
                 value=content_context_content)
         else:
             # Set default values for task prompt and context content
-            with open('apps/streamlit_ui/task_prompt_authentication.txt',
+            with open('apps/streamlit_ui/task_prompt_GPT_prediction.txt',
                       'r') as file:
                 task_prompt_business_novel = file.read()
-            with open('apps/streamlit_ui/context_content_authentication.txt',
+            with open('apps/streamlit_ui/context_content_GPT_prediction.txt',
                       'r') as file:
                 context_content_business_novel = file.read()
             task_prompt = st.text_area("Insert the task here",
