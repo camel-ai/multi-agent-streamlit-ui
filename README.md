@@ -94,7 +94,7 @@ Moreover, in the realm of prompt engineering within the Multi-Agent System, the 
     ```
 3. Install the dependencies: 
     ``` sh
-    pip isntall streamlit
+    pip install streamlit
     pip install -r requirements.txt
     ```
 4. Set up the streamlit app:
