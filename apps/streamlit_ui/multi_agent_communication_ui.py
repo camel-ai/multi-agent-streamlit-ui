@@ -21,7 +21,6 @@ from camel.configs import ChatGPTConfig, FunctionCallingConfig
 from camel.functions import MATH_FUNCS, SEARCH_FUNCS
 from camel.societies import RolePlaying
 from camel.types import ModelType, TaskType
-from colorama import Fore
 
 
 def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
@@ -29,8 +28,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
     # Model and agent initialization
     model_config_description = ChatGPTConfig()
     role_assignment_agent = RoleAssignmentAgent(
-        model_type=ModelType.GPT_4_TURBO,
-        model_config=model_config_description)
+        model_type=model_type, model_config=model_config_description)
     insight_agent = InsightAgent(model_type=model_type,
                                  model_config=model_config_description)
     deductive_reasoner_agent = DeductiveReasonerAgent(
@@ -59,6 +57,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
         oriented_graph=oriented_graph,
         graph_file_path="apps/streamlit_ui/task_dependency_graph.png")
 
+    # Get the list of subtasks
     subtasks = [
         subtasks_with_dependencies_dict[key]["description"]
         for key in sorted(subtasks_with_dependencies_dict.keys())
@@ -131,9 +130,10 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
             sys_msg_meta_dicts = [
                 dict(
                     assistant_role=ai_assistant_role, user_role=ai_user_role,
-                    assistant_description=ai_assistant_description +
-                    insights_for_subtask, user_description=ai_user_description)
-                for _ in range(2)
+                    assistant_description=ai_assistant_description + "\n" +
+                    insights_for_subtask,
+                    user_description=ai_user_description + "\n" +
+                    insights_for_subtask) for _ in range(2)
             ]  # System message meta data dicts
             function_list = [*MATH_FUNCS, *SEARCH_FUNCS]
             assistant_model_config = \
@@ -161,7 +161,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
                     function_list=function_list,
                 ),
                 task_prompt=subtask_content,
-                model_type=model_type,
+                model_type=ModelType.GPT_4_TURBO,
                 task_type=TaskType.
                 ROLE_DESCRIPTION,  # Important for role description
                 with_task_specify=False,
@@ -208,15 +208,17 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
                     chat_history_two_roles += (transformed_text + "\n\n")
 
                 if assistant_response.terminated:
-                    print(Fore.GREEN + (
-                        f"{ai_assistant_role} terminated. Reason: "
-                        f"{assistant_response.info['termination_reasons']}."))
+                    send_message_to_ui(
+                        role="assistant", role_name=ai_assistant_role,
+                        message=f"{ai_assistant_role} terminated. Reason: "
+                        f"{assistant_response.info['termination_reasons']}.")
                     break
                 if user_response.terminated:
-                    print(Fore.GREEN + (
-                        f"{ai_user_role} terminated. "
+                    send_message_to_ui(
+                        role="user", role_name=ai_user_role,
+                        message=f"{ai_user_role} terminated. "
                         f"Reason: {user_response.info['termination_reasons']}."
-                    ))
+                    )
                     break
 
                 if "CAMEL_TASK_DONE" in user_response.msg.content or \
@@ -228,7 +230,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
             send_message_to_ui(
                 role="assistant", role_name=ai_assistant_role,
                 message="Conclusion of the conversation for the "
-                f"{subtask_id}:\n" + chat_history_two_roles)
+                f"{subtask_id}:\n{chat_history_two_roles}")
 
             insights_instruction = (
                 "The CONTEXT TEXT is the steps to resolve " +
@@ -256,30 +258,21 @@ def get_insights_from_environment(subtask_id, one_subtask, one_subtask_labels,
 
     target_labels = list(
         set(conditions_and_quality_json["labels"]) | set(one_subtask_labels))
-    # print(f"Target labels for {subtask_id}:\n{target_labels}")
 
     labels_sets = [
         list(labels_set) for labels_set in environment_record.keys()
     ]
-    # print(f"Labels sets for {subtask_id}:\n{labels_sets}")
 
     _, _, _, labels_retrieved_sets = \
         role_assignment_agent.get_retrieval_index_from_environment(
             labels_sets=labels_sets,
             target_labels=target_labels)
-    # print_and_write_md(
-    #     "Retrieved labels from the environment:\n" +
-    #     f"{labels_retrieved_sets}", color=Fore.CYAN,
-    #     file_path=f"retrieved labels for {subtask_id}")
 
     # Retrive the necessaray insights from the environment
     retrieved_insights = [
         environment_record[tuple(label_set)]
         for label_set in labels_retrieved_sets
     ]
-    # print("Retrieved insights from the environment for "
-    #       f"{subtask_id}:\n"
-    #       f"{json.dumps(retrieved_insights, indent=4)}")
 
     insights_none_pre_subtask = insight_agent.run(context_text=context_text)
     insights_for_subtask = (
@@ -291,11 +284,6 @@ def get_insights_from_environment(subtask_id, one_subtask, one_subtask_labels,
 
     insights_for_subtask += "\n".join(
         [json.dumps(insight, indent=4) for insight in retrieved_insights])
-
-    # print_and_write_md(
-    #     f"Insights from the context text:\n{insights_for_subtask}",
-    #     color=Fore.GREEN, file_path="insights of context text for "
-    #     f"{subtask_id}")
 
     subtask_id = subtask_id.replace("_", " ")
 
