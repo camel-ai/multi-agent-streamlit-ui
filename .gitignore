@@ -28,6 +28,10 @@ share/python-wheels/
 *.egg
 MANIFEST
 *.whl
+activate*
+activate.*
+*.js
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -132,7 +136,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
+ui/bin
+ui
 # Spyder project settings
 .spyderproject
 .spyproject
