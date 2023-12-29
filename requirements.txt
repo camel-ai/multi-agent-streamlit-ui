@@ -31,4 +31,8 @@ pytest>=7
 pytest-cov>=4
 gradio>=3
 mock>=5
+pyqt5<5.16
+pyqtwebengine<5.16
+pycodestyle>=2.8.0
+fsspec==2023.4.0
 git+https://github.com/camel-ai/camel.git@feature/multi-agent-prod#egg=camel
