@@ -88,9 +88,10 @@ Moreover, in the realm of prompt engineering within the Multi-Agent System, the 
     git clone https://github.com/camel-ai/multi-agent-streamlit-ui.git
     cd multi-agent-streamlit-ui
     ```
-2. Create a virtual environment (optional but recommended):
+2. Create and activate a virtual environment (optional but recommended):
     ``` sh
     python -m venv myenvname
+    ./venv/Scripts/activate
     ```
 3. Install the dependencies: 
     ``` sh
