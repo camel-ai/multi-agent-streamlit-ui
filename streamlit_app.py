@@ -17,7 +17,7 @@ import os
 
 import streamlit as st
 from camel.configs import ChatGPTConfig
-from camel.functions.data_io_functions import read_file
+from camel.functions.base_io_functions import read_file
 from camel.models.openai_model import OpenAIModel
 from camel.types import ModelType
 
@@ -134,4 +134,6 @@ with st.sidebar:
 if (openai_api_key and google_api_key and search_engine_id and task_prompt
         and context_text and submit_button):
     # Call the 'main' function with the task prompt and context content
-    main(task_prompt=task_prompt, context_text=context_text)
+    num_roles = 5
+    main(task_prompt=task_prompt, context_text=context_text,
+         num_roles=num_roles)
