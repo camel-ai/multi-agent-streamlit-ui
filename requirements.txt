@@ -41,4 +41,4 @@ types-requests>=2.0.0,<3.0.0
 sphinx>=6.0.0,<7.0.0
 sphinx_book_theme
 recommonmark
-git+https://github.com/camel-ai/camel.git@feature/multi-agent-dev
+git+https://github.com/camel-ai/camel.git@feature/multi-agent-prod
