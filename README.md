@@ -94,6 +94,8 @@ Moreover, in the realm of prompt engineering within the Multi-Agent System, the 
     ```
 3. Install the dependencies: 
     ``` sh
+    python -m pip install --upgrade pip
+    pip uninstall camel-ai  # Make sure you will get the latest version of Camel
     pip install streamlit
     pip install -r requirements.txt
     ```
