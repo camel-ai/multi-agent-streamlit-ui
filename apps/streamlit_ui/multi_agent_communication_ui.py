@@ -16,7 +16,7 @@ import json
 import streamlit as st
 from camel.agents.deductive_reasoner_agent import DeductiveReasonerAgent
 from camel.agents.insight_agent import InsightAgent
-from camel.agents.role_assignment_agent import RoleAssignmentAgent
+from camel.agents.multi_agent import MultiAgent
 from camel.configs import ChatGPTConfig, FunctionCallingConfig
 from camel.functions import MATH_FUNCS, SEARCH_FUNCS
 from camel.societies import RolePlaying
@@ -27,34 +27,30 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
          context_text=None, num_roles=None) -> None:
     # Model and agent initialization
     model_config = ChatGPTConfig()
-    role_assignment_agent = \
-        RoleAssignmentAgent(model_type=ModelType.GPT_4_TURBO,
-                            model_config=model_config)
+    multi_agent = \
+        MultiAgent(model_type=ModelType.GPT_4_TURBO,
+                   model_config=model_config)
     insight_agent = InsightAgent(model_type=model_type,
                                  model_config=model_config)
     deductive_reasoner_agent = DeductiveReasonerAgent(
         model_type=model_type, model_config=model_config)
 
     # Generate role with descriptions
-    role_descriptions_dict = \
-        role_assignment_agent.run_role_with_description(
-            task_prompt=task_prompt, num_roles=num_roles, role_names=None,
-            function_list=[])
+    role_descriptions_dict = multi_agent.run_role_with_description(
+        task_prompt=task_prompt, num_roles=num_roles, role_names=None,
+        function_list=[])
 
     # Split the original task into subtasks
-    subtasks_with_dependencies_dict = \
-        role_assignment_agent.split_tasks(
-            task_prompt=task_prompt,
-            role_descriptions_dict=role_descriptions_dict,
-            num_subtasks=2,
-            context_text=context_text)
+    subtasks_with_dependencies_dict = multi_agent.split_tasks(
+        task_prompt=task_prompt, role_descriptions_dict=role_descriptions_dict,
+        num_subtasks=2, context_text=context_text)
 
     # Draw the graph of the subtasks
     oriented_graph = {}
     for subtask_idx, details in subtasks_with_dependencies_dict.items():
         deps = details["dependencies"]
         oriented_graph[subtask_idx] = deps
-    role_assignment_agent.draw_subtasks_graph(
+    multi_agent.draw_subtasks_graph(
         oriented_graph=oriented_graph,
         graph_file_path="apps/streamlit_ui/task_dependency_graph.png")
 
@@ -67,9 +63,8 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
 
     # Calculate the execution order of the subtasks, based on their
     # dependencies
-    parallel_subtask_pipelines = \
-        role_assignment_agent.get_task_execution_order(
-            subtasks_with_dependencies_dict)
+    parallel_subtask_pipelines = multi_agent.get_task_execution_order(
+        subtasks_with_dependencies_dict)
 
     # Initialize the environment record
     environment_record = {}  # The cache of the system
@@ -92,13 +87,12 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
         # Get the insights from the environment for the subtask
         insights_for_subtask = get_insights_from_environment(
             subtask_id, subtask, subtask_labels, environment_record,
-            deductive_reasoner_agent, role_assignment_agent, insight_agent,
-            context_text)
+            deductive_reasoner_agent, multi_agent, insight_agent, context_text)
 
         # Get the role with the highest compatibility score
         role_compatibility_scores_dict = (
-            role_assignment_agent.evaluate_role_compatibility(
-                subtask, role_descriptions_dict))
+            multi_agent.evaluate_role_compatibility(subtask,
+                                                    role_descriptions_dict))
 
         # Get the top two roles with the highest compatibility scores
         ai_assistant_role = \
@@ -185,12 +179,12 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
 
             # Start the role-playing to complete the subtask
             chat_turn_limit, n = 50, 0
-            input_assistant_msg, _ = role_play_session.init_chat()
+            input_msg, _ = role_play_session.init_chat()
             while n < chat_turn_limit:
                 n += 1
                 try:
                     assistant_response, user_response = \
-                        role_play_session.step(input_assistant_msg)
+                        role_play_session.step(input_msg)
                 except Exception as e:
                     # output a warning message and continue
                     st.warning(f"Warning: {e}")
@@ -210,7 +204,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
                         "CAMEL_TASK_DONE" in assistant_response.msg.content:
                     break
 
-                input_assistant_msg = assistant_response.msg
+                input_msg = assistant_response.msg
 
                 assistant_msg_record += (
                     f"--- [{n}] ---\n" +
@@ -246,8 +240,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
 
 def get_insights_from_environment(subtask_id, subtask, subtask_labels,
                                   environment_record, deductive_reasoner_agent,
-                                  role_assignment_agent, insight_agent,
-                                  context_text):
+                                  multi_agent, insight_agent, context_text):
     # React to the environment, and get the insights from it
     conditions_and_quality_json = \
         deductive_reasoner_agent.deduce_conditions_and_quality(
@@ -262,7 +255,7 @@ def get_insights_from_environment(subtask_id, subtask, subtask_labels,
     ]
 
     _, _, _, labels_retrieved_sets = \
-        role_assignment_agent.get_retrieval_index_from_environment(
+        multi_agent.get_retrieval_index_from_environment(
             labels_sets=labels_sets,
             target_labels=target_labels)
 
