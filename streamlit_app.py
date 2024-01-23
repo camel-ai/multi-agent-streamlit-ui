@@ -33,15 +33,16 @@ with st.sidebar:
         # Input field for API Keys
         openai_api_key = st.text_input("OpenAI API Key", key="api_key_openai",
                                        type="password")
-        google_api_key = st.text_input("Google API Key", key="api_key_google",
-                                       type="password")
+        duckduckgo_api_key = st.text_input("Duckduckgo API Key",
+                                           key="api_key_duckduckgo",
+                                           type="password")
         search_engine_id = st.text_input("Search Engine ID",
                                          key="search_engine_id",
                                          type="password")
 
         # Set the environment variables for the API Key
         os.environ["OPENAI_API_KEY"] = openai_api_key
-        os.environ["GOOGLE_API_KEY"] = google_api_key
+        os.environ["DUCKDUCKGO_API_KEY"] = duckduckgo_api_key
         os.environ["SEARCH_ENGINE_ID"] = search_engine_id
 
         # File uploader for users to upload a document
@@ -131,7 +132,7 @@ with st.sidebar:
         submit_button = st.form_submit_button(label='Submit')
 
 # Check if all required inputs are provided and the submit button is clicked
-if (openai_api_key and google_api_key and search_engine_id and task_prompt
+if (openai_api_key and duckduckgo_api_key and search_engine_id and task_prompt
         and context_text and submit_button):
     # Call the 'main' function with the task prompt and context content
     num_roles = 5
