@@ -2,7 +2,6 @@ numpy>=1.0.0,<2.0.0
 openai>=1.2.3,<2.0.0
 tiktoken>=0.0.0,<1.0.0
 networkx>=2.8.8
-streamlit>=1.0.0,<2.0.0
 wikipedia>=1.0.0,<2.0.0
 pre-commit>=3.0.0,<4.0.0
 git+https://github.com/camel-ai/camel.git@feature/multi-agent-prod
