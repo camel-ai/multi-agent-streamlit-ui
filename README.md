@@ -97,7 +97,7 @@ Moreover, in the realm of prompt engineering within the Multi-Agent System, the 
     ``` sh
     python -m pip install --upgrade pip
     pip uninstall camel-ai  # Make sure you will get the latest version of Camel
-    pip install streamlit wheel
+    pip install streamlit
     pip install -r requirements.txt
     ```
 4. Set up the streamlit app:
