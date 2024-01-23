@@ -308,4 +308,5 @@ def send_message_to_ui(role="", role_name="", message=""):
         raise ValueError("The role should be one of 'user' or 'assistant'.")
 
     with st.chat_message(role):
-        st.write(f"AI {role}: {role_name}\n\n{message}\n")
+        st.write(f"AI {role}: {role_name}\n\n"
+                 f"{message.replace('Next request.', '')}")
