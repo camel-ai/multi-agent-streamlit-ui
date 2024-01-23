@@ -179,7 +179,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
 
             # Start the role-playing to complete the subtask
             chat_turn_limit, n = 50, 0
-            input_msg, _ = role_play_session.init_chat()
+            input_msg = role_play_session.init_chat()
             while n < chat_turn_limit:
                 n += 1
                 try:
