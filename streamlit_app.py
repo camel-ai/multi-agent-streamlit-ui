@@ -135,8 +135,8 @@ with st.sidebar:
 
 # Check if all required inputs are provided and the submit button is clicked
 if (openai_api_key and task_prompt and context_text and submit_button):
-    if (search_enabled and google_api_key is not None
-            and search_engine_id is not None):
+    if (search_enabled
+            and (google_api_key is None or search_engine_id is None)):
         st.warning("Please provide Google API Key and Search Engine ID to "
                    "enable the web browsing.")
         search_enabled = False
