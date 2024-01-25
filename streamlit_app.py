@@ -33,16 +33,19 @@ with st.sidebar:
         # Input field for API Keys
         openai_api_key = st.text_input("OpenAI API Key", key="api_key_openai",
                                        type="password")
-        google_api_key = st.text_input("Google API Key", key="api_key_google",
-                                       type="password")
-        search_engine_id = st.text_input("Search Engine ID",
-                                         key="search_engine_id",
-                                         type="password")
-
-        # Set the environment variables for the API Key
         os.environ["OPENAI_API_KEY"] = openai_api_key
-        os.environ["GOOGLE_API_KEY"] = google_api_key
-        os.environ["SEARCH_ENGINE_ID"] = search_engine_id
+
+        # Enable functionality of the web browsing
+        search_enabled = st.checkbox("Enable Web Browsing (it may take time)")
+        if search_enabled:
+            google_api_key = st.text_input("Google API Key",
+                                           key="api_key_google",
+                                           type="password")
+            search_engine_id = st.text_input("Search Engine ID",
+                                             key="search_engine_id",
+                                             type="password")
+            os.environ["GOOGLE_API_KEY"] = google_api_key
+            os.environ["SEARCH_ENGINE_ID"] = search_engine_id
 
         # File uploader for users to upload a document
         uploaded_file = st.file_uploader(
@@ -131,9 +134,14 @@ with st.sidebar:
         submit_button = st.form_submit_button(label='Submit')
 
 # Check if all required inputs are provided and the submit button is clicked
-if (openai_api_key and google_api_key and search_engine_id and task_prompt
-        and context_text and submit_button):
+if (openai_api_key and task_prompt and context_text and submit_button):
+    if (search_enabled and google_api_key is not None
+            and search_engine_id is not None):
+        st.warning("Please provide Google API Key and Search Engine ID to "
+                   "enable the web browsing.")
+        search_enabled = False
+
     # Call the 'main' function with the task prompt and context content
     num_roles = 5
     main(task_prompt=task_prompt, context_text=context_text,
-         num_roles=num_roles)
+         num_roles=num_roles, search_enabled=search_enabled)
