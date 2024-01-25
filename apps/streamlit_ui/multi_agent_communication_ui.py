@@ -24,7 +24,7 @@ from camel.types import ModelType, TaskType
 
 
 def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
-         context_text=None, num_roles=None) -> None:
+         context_text=None, num_roles=None, search_enabled=False) -> None:
     # Model and agent initialization
     model_config = ChatGPTConfig()
     multi_agent = \
@@ -43,7 +43,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
     # Split the original task into subtasks
     subtasks_with_dependencies_dict = multi_agent.split_tasks(
         task_prompt=task_prompt, role_descriptions_dict=role_descriptions_dict,
-        num_subtasks=2, context_text=context_text)
+        num_subtasks=None, context_text=context_text)
 
     # Draw the graph of the subtasks
     oriented_graph = {}
@@ -131,7 +131,10 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
                     insights_for_subtask) for _ in range(2)
             ]  # System message meta data dicts
 
-            function_list = [*MATH_FUNCS, *SEARCH_FUNCS]
+            if search_enabled:
+                function_list = [*MATH_FUNCS, *SEARCH_FUNCS]
+            else:
+                function_list = [*MATH_FUNCS]
 
             # Assistant model config
             assistant_config = \
@@ -308,4 +311,5 @@ def send_message_to_ui(role="", role_name="", message=""):
         raise ValueError("The role should be one of 'user' or 'assistant'.")
 
     with st.chat_message(role):
-        st.write(f"AI {role}: {role_name}\n\n{message}\n")
+        st.write(f"AI {role}: {role_name}\n\n"
+                 f"{message.replace('Next request.', '')}")
