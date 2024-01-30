@@ -28,8 +28,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
     # Model and agent initialization
     model_config = ChatGPTConfig()
     multi_agent = \
-        MultiAgent(model_type=ModelType.GPT_4_TURBO,
-                   model_config=model_config)
+        MultiAgent(model_type=model_type, model_config=model_config)
     insight_agent = InsightAgent(model_type=model_type,
                                  model_config=model_config)
     deductive_reasoner_agent = DeductiveReasonerAgent(
@@ -90,9 +89,19 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
             deductive_reasoner_agent, multi_agent, insight_agent, context_text)
 
         # Get the role with the highest compatibility score
-        role_compatibility_scores_dict = (
-            multi_agent.evaluate_role_compatibility(subtask,
-                                                    role_descriptions_dict))
+        max_attempts, attempt = 3, 0
+        while attempt < max_attempts:
+            try:
+                role_compatibility_scores_dict = (
+                    multi_agent.evaluate_role_compatibility(
+                        subtask, role_descriptions_dict))
+                break
+            except Exception as e:
+                st.warning(f"Warning: {e}")
+                attempt += 1
+                if attempt == max_attempts:
+                    st.error(f"Error: {e}")
+                    raise e
 
         # Get the top two roles with the highest compatibility scores
         ai_assistant_role = \
