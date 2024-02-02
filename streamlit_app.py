@@ -119,10 +119,9 @@ with st.sidebar:
                 value=content_context_content)
         else:
             # Set default values for task prompt and context content
-            with open('apps/streamlit_ui/task_prompt_GPT_prediction.txt',
-                      'r') as file:
+            with open('examples/task_prompt_GPT_prediction.txt', 'r') as file:
                 task_prompt_business_novel = file.read()
-            with open('apps/streamlit_ui/context_content_GPT_prediction.txt',
+            with open('examples/context_content_GPT_prediction.txt',
                       'r') as file:
                 context_content_business_novel = file.read()
             task_prompt = st.text_area("Insert the task here",
