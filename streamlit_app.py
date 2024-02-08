@@ -141,6 +141,6 @@ if (openai_api_key and task_prompt and context_text and submit_button):
         search_enabled = False
 
     # Call the 'main' function with the task prompt and context content
-    num_roles = 5
+    num_roles = 5  # num_roles could be null or a number
     main(task_prompt=task_prompt, context_text=context_text,
          num_roles=num_roles, search_enabled=search_enabled)
