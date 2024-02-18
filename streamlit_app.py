@@ -29,7 +29,7 @@ st.title("🐫 CAMEL Multi-Agent")
 
 # Create a sidebar with form elements
 with st.sidebar:
-    with st.form(key='form1'):
+    with st.form(key='form_1'):
         # Input field for API Keys
         openai_api_key = st.text_input("OpenAI API Key", key="api_key_openai",
                                        type="password")
@@ -140,7 +140,16 @@ if (openai_api_key and task_prompt and context_text and submit_button):
                    "enable the web browsing.")
         search_enabled = False
 
+    # Clean the previous outputs
+    with open("downloads/CAMEL_multi_agent_output.md", "w") as file:
+        file.write("")
+
     # Call the 'main' function with the task prompt and context content
     num_roles = 5  # num_roles could be null or a number
     main(task_prompt=task_prompt, context_text=context_text,
          num_roles=num_roles, search_enabled=search_enabled)
+
+    # Export the outputs of the form
+    with open("downloads/CAMEL_multi_agent_output.md", "r") as file:
+        st.download_button("Export the output to markdown", file,
+                           file_name="CAMEL_multi_agent_output.md")
