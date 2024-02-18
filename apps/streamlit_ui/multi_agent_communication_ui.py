@@ -299,6 +299,14 @@ def send_role_descriptions_to_ui(role_descriptions_dict={}):
             st.write(f"{role}:")
             st.write(role_description)
 
+    # Save the role descriptions
+    with open("downloads/CAMEL_multi_agent_output.md", "a") as file:
+        # Continue to write
+        for role, role_description in role_descriptions_dict.items():
+            file.write(f"Buid {num_roles} AI agents:\n")
+            file.write(f"{role}:\n{role_description}\n")
+        file.write("\n")
+
 
 def send_two_role_descriptions_to_ui(ai_assistant_role="", ai_user_role="",
                                      ai_assistant_description="",
@@ -308,12 +316,25 @@ def send_two_role_descriptions_to_ui(ai_assistant_role="", ai_user_role="",
     st.write(f"{ai_user_role}:")
     st.write(ai_user_description)
 
+    # Save the role descriptions
+    with open("downloads/CAMEL_multi_agent_output.md", "a") as file:
+        file.write(f"{ai_assistant_role}:\n{ai_assistant_description}\n")
+        file.write(f"{ai_user_role}:\n{ai_user_description}\n")
+        file.write("\n")
+
 
 def send_subtasks_to_ui(subtasks=[]):
     with st.expander("Subtasks:"):
         for i, subtask in enumerate(subtasks):
             st.write(f"Subtask {i + 1}:")
             st.write(subtask)
+
+    # Save the subtasks
+    with open("downloads/CAMEL_multi_agent_output.md", "a") as file:
+        for i, subtask in enumerate(subtasks):
+            file.write(f"Subtask {i + 1}:\n")
+            file.write(subtask + "\n")
+        file.write("\n")
 
 
 def send_message_to_ui(role="", role_name="", message=""):
@@ -323,3 +344,9 @@ def send_message_to_ui(role="", role_name="", message=""):
     with st.chat_message(role):
         st.write(f"AI {role}: {role_name}\n\n"
                  f"{message.replace('Next request.', '')}")
+
+    # Save the messages
+    with open("downloads/CAMEL_multi_agent_output.md", "a") as file:
+        file.write(f"AI {role}: {role_name}\n\n")
+        file.write(message.replace('Next request.', '') + "\n")
+        file.write("\n")
