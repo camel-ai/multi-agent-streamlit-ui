@@ -28,7 +28,7 @@ def main(model_type=ModelType.GPT_3_5_TURBO_16K, task_prompt=None,
     # Model and agent initialization
     model_config = ChatGPTConfig()
     multi_agent = \
-        MultiAgent(model_type=model_type, model_config=model_config)
+        MultiAgent(model_type=ModelType.GPT_4_TURBO, model_config=model_config)
     insight_agent = InsightAgent(model_type=model_type,
                                  model_config=model_config)
     deductive_reasoner_agent = DeductiveReasonerAgent(
