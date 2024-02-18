@@ -282,7 +282,7 @@ def get_insights_from_environment(subtask_id, subtask, subtask_labels,
     insights_for_subtask = (
         "\n====== CURRENT STATE =====\n"
         "The snapshot and the context of the TASK is presentd in "
-        "the following insights which is close related to The "
+        "the following insights which is close related to the "
         "\"Insctruction\" and the \"Input\":\n" +
         f"{json.dumps(insights_none_pre_subtask, indent=4)}\n")
 
