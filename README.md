@@ -91,7 +91,8 @@ Moreover, in the realm of prompt engineering within the Multi-Agent System, the 
 2. Create and activate a virtual environment (optional but recommended):
     ``` sh
     python -m venv myenvname
-    ./venv/Scripts/activate
+    source venv_name/bin/activate #for Mac OS
+
     ```
 3. Install the dependencies: 
     ``` sh
