@@ -91,7 +91,7 @@ Moreover, in the realm of prompt engineering within the Multi-Agent System, the 
 2. Create and activate a virtual environment (optional but recommended):
     ``` sh
     python -m venv myenvname
-    ./venv/Scripts/activate # Windows
+    ./myenvname/Scripts/activate # Windows
     source myenvname/bin/activate # MacOS
 
     ```
