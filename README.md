@@ -63,7 +63,7 @@ This project, part of CAEML, implements a multi-agent system with a user interfa
 ## Community
 🐫 CAMEL is an open-source library designed for the study of autonomous and communicative agents. We believe that studying these agents on a large scale offers valuable insights into their behaviors, capabilities, and potential risks. To facilitate research in this field, we implement and support various types of agents, tasks, prompts, models, and simulated environments.
 
-Join us ([*Slack*](https://join.slack.com/t/camel-kwr1314/shared_invite/zt-1vy8u9lbo-ZQmhIAyWSEfSwLCl2r2eKA), [*Discord*](https://discord.gg/CNcNpquyDc) or [*WeChat*](https://ghli.org/camel/wechat.png)) in pushing the boundaries of building AI Societiy.
+Join us ([*Slack*](https://join.slack.com/t/camel-kwr1314/shared_invite/zt-1vy8u9lbo-ZQmhIAyWSEfSwLCl2r2eKA), [*Discord*](https://discord.gg/CNcNpquyDc) or [*WeChat*](https://ghli.org/camel/wechat.png)) in pushing the boundaries of building AI Society.
 
 ## Introduction to Multi-Agent System of CAMEL
 
