@@ -46,7 +46,7 @@
 </p>
 
 <p align="center">
-  <img src='https://raw.githubusercontent.com/camel-ai/camel/master/misc/logo.png' width=800>
+  <img src='misc\logo.png' with=800>
 </p>
 
 ## Overview
