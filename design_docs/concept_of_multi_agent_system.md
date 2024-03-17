@@ -213,11 +213,9 @@ The criteria for evaluating these scores are comprehensive and multi-dimensional
 
 Each of these areas plays a crucial role in comprehensively assessing the suitability and effectiveness of roles in relation to specific tasks, ensuring a nuanced and data-driven selection process. The compatibility scores for each role are systematically structured as follows:
 
-$Score(role_i, subT) =$ 
-
-  $\{score_{user}: Comp_{user}(role_i, subT),$
-
-     $score_{assistant}: Comp_{assistant}(role_i, subT)\}$
+$$
+Score(role_i, subT) = \{score_{user}: Comp_{user}(role_i, subT), score_{assistant}: Comp_{assistant}(role_i, subT)\}
+$$
 
 Consequently, the output of this process is a comprehensive dictionary mapping each role to its calculated compatibility scores:
 
