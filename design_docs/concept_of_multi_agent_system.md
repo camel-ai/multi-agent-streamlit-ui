@@ -6,7 +6,7 @@
 
 Figure 1: Framework of the Multi-Agent System
 
-In an era where digital interfaces are integral to our daily lives, the need for seamless and meaningful human-computer interactions has never been greater. This is where the groundbreaking the Multi-Agent System comes into play, introducing a game-changer in the realm of digital communication.**** 
+In an era where digital interfaces are integral to our daily lives, the need for seamless and meaningful human-computer interactions has never been greater. This is where the groundbreaking the Multi-Agent System comes into play, introducing a game-changer in the realm of digital communication.
 
 The Multi-Agent System has risen as a critical solution to complex and dynamic problems in computational intelligence. CAMEL.AI, an acronym for *Communicative Agents for “Mind” Exploration of Large-Scale Language Model Society*, is an outstanding open-source community that aims to refine how AI agents interact within an AI system. The Multi-Agent System, proposed by CAMEL.AI, endeavors to meet the nuanced requirements and expectations of users and enterprises, which demand systems that are both adaptive and capable of advanced problem-solving.
 
@@ -36,7 +36,7 @@ Figure 2: Clarify Agent
 
 Before utilizing $Task$  and $Context$ parameters, in order to enhance the Multi-Agent System user interactivity, we have integrated a clarification mechanism function as a dialogue manager. This mechanism engages in multi-round interactions with users, aiming to refine the $Task$ and to augment it with additional $Context$. The Clarify Agent, central to this process, is adept at generating context-sensitive queries aimed at resolving ambiguities in $Task$. Through multiple rounds of communication, it compiles a list of question answer pairs, denoted as $QA$. Upon reaching the conclusion of the clarification phase, either when all ambiguities have been addressed or the user indicates no further clarifications, the process transitions to a refinement phase. Here, leveraging the $QA$ dataset, the agent produces two structured outcomes: a specified task prompt $Task'$ and enhanced context information $Context'$. 
 
-```json
+```
 The input task prompt is: Develop a trading bot for stock market
 
 What specific features or functionalities would you like the trading bot to have?
@@ -134,7 +134,7 @@ where:
 
 ```json
 Dependencies among subtasks: {
-... ...
+// ...
 	"subtask 2": {
 		"description": "- Write Chapter 2: First Leap, capturing the ship's first FTjump and the crew's reactions to anomalies.",
 		"dependencies": [
@@ -148,7 +148,7 @@ Dependencies among subtasks: {
 		"input_content": "- Details on spaceship technology and descriptions of initial challenges and discoveries.",
 		"output_standard": "- Chapter 2 is completed when the maiden voyage and initial challenges are vividly described."
 	},
-... ...
+// ...
 }
 ```
 
@@ -292,7 +292,7 @@ Next, each segment is scrutinized for **Topic Identification**. With $topic\_id$
     "answer_to_formulate_questions": "The data centers hosting APS are strategically located in North America, Europe, and Asia. The 72 CCTV cameras contribute to the security of the data centers by monitoring and safeguarding entry and exit points.",
     "iterative_feedback": null
   },
-  ... ...
+  // ...
 }
 ```
 
@@ -436,8 +436,21 @@ Setting the parameters for both the AI User and AI Assistant in $Settings\_Roles
 The model can be expressed as follows:
 
 $$
-\left\{\begin{aligned}&M_0 \leftarrow Initialize(Settings\_LLM, Settings\_Roles) \\&Mem\_Cache \leftarrow Retrieve\_Memory(Cache) \\&Subtask\_Desc \leftarrow Dec (Task, Context, Team, n)  \\&\text{For each } t \text{ in interaction steps:} \\&\quad Z_t \leftarrow User\_Instructions(M_{t-1}, Mem\_Cache, Subtask\_Desc) \\&\quad S_t \leftarrow Assistant\_Solutions(Z_t, M_{t-1}, Mem\_Cache) \\&\quad M_{t+1} \leftarrow M_t \cup \{ (Z_{t+1}, S_{t+1}) \} \\&\text{If task is completed:} \\&\quad Confirm\_Task\_Completion(M_t) \\&\text{Evaluate:} \\&r \leftarrow E(M_t, Target)\end{aligned}\right.
+\left\{\begin{aligned}
+&M_0 \leftarrow Initialize(Settings\_LLM, Settings\_Roles) \\
+&Mem\_Cache \leftarrow Retrieve\_Memory(Cache) \\
+&Subtask\_Desc \leftarrow Dec (Task, Context, Team, n)  \\
+&\text{For each } t \text{ in interaction steps:} \\
+&\quad Z_t \leftarrow User\_Instructions(M_{t-1}, Mem\_Cache, Subtask\_Desc) \\
+&\quad S_t \leftarrow Assistant\_Solutions(Z_t, M_{t-1}, Mem\_Cache) \\
+&\quad M_{t+1} \leftarrow M_t \cup \{ (Z_{t+1}, S_{t+1}) \} \\
+&\text{If task is completed:} \\
+&\quad Confirm\_Task\_Completion(M_t) \\
+&\text{Evaluate:} \\
+&r \leftarrow E(M_t, Target)
+\end{aligned}\right.
 $$
+
 
 In this model, the AI User $U$ and AI Assistant $A$ interact within a defined structure, following their role settings and utilizing memory from previous interactions to guide the conversation towards the completion of a task. The evaluation function $E$ assesses the success of the communication in reaching the defined target.
 
