@@ -71,7 +71,7 @@ Join us ([*Slack*](https://join.slack.com/t/camel-kwr1314/shared_invite/zt-1vy8u
     <img src='misc\framework_of_the_multi_agent_system.png' with=800>
 </p>
 
-In an era where digital interfaces are integral to our daily lives, the need for seamless and meaningful human-computer interactions has never been greater. This is where the groundbreaking the Multi-Agent System comes into play, introducing a game-changer in the realm of digital communication. 
+In an era where digital interfaces are integral to our daily lives, the need for seamless and meaningful human-computer interactions has never been greater. This is where the groundbreaking the Multi-Agent System comes into play, introducing a game-changer in the realm of digital communication. **You can find more design concepts of the system here: [design docs](https://github.com/camel-ai/multi-agent-streamlit-ui/tree/feature/multi-agent/design_docs)**
 
 The Multi-Agent System has risen as a critical solution to complex and dynamic problems in computational intelligence. CAMEL.AI, an acronym for *Communicative Agents for “Mind” Exploration of Large-Scale Language Model Society*, is an outstanding open-source community that aims to refine how AI agents interact within an AI system. The Multi-Agent System, proposed by CAMEL.AI, endeavors to meet the nuanced requirements and expectations of users and enterprises, which demand systems that are both adaptive and capable of advanced problem-solving.
 
