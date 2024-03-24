@@ -50,7 +50,7 @@
 </p>
 
 ## Overview
-This project, part of CAEML, implements a multi-agent system with a user interface developed in Streamlit. It showcases the integration of advanced agent-based modeling techniques with an accessible and interactive web interface.
+This project, part of CAMEL, implements a multi-agent system with a user interface developed in Streamlit. It showcases the integration of advanced agent-based modeling techniques with an accessible and interactive web interface.
 
 <p align="center">
     <img src='misc\stramlit_ui.png' with=800>
